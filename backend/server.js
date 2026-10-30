@@ -10,7 +10,7 @@ const connectDB = require("./db");
 dotenv.config();
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json({ limit: "5mb" }));
@@ -124,8 +124,18 @@ app.use((err, req, res, next) => {
 });
 
 // Connect to MongoDB and start the backend.
-connectDB();
+// Connect to MongoDB and start the backend.
+async function startServer() {
+  const isConnected = await connectDB();
 
-app.listen(PORT, () => {
-  console.log(`Backend running at http://localhost:${PORT}`);
-});
+  if (!isConnected) {
+    console.error("Server startup stopped: MongoDB connection failed.");
+    process.exit(1);
+  }
+
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Backend running on port ${PORT}`);
+  });
+}
+
+startServer();
