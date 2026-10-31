@@ -13,7 +13,7 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 
-const API_URL = "http://localhost:5000";
+const API_URL = "https://ai-resume-matcher-backend-yyqg.onrender.com";
 
 const emptyProfile = {
   name: "",
